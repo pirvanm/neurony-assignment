@@ -19,6 +19,7 @@ class Candidate extends Model
 
     public function scopeFilters($query, array $filters = [])
     {
+        // @IMPORTANT: querying json columns is very slow, better use relationships
         return $query->when($filters['strengths'] ?? null, function ($query, $strengths) {
             return $query->whereRaw('JSON_CONTAINS(strengths, ?)', [json_encode($strengths)]);
         })->when($filters['skills'] ?? null, function ($query, $skills) {
