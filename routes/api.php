@@ -22,3 +22,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::get('candidates/filter', [CandidateController::class, 'filter'])
     //->middleware('auth:web')
     ->name('api.candidates.filter');
+Route::post('candidates/contact/{candidate}', [CandidateController::class, 'contact'])->middleware('auth:web')->name('api.candidates.contact');
+Route::patch('candidates/hire/{candidate}', [CandidateController::class, 'hire'])->middleware('auth:web')->name('api.candidates.hire');

@@ -1,0 +1,1 @@
+Company {{ $company->name }} has contacted you for hiring!

@@ -1,6 +1,7 @@
 <script>
 export default {
   props:['candidate', 'desiredStrength', 'desiredSkills', 'company'],
+  emits: ['contact', 'hire'],
   methods: {
     hasDesiredStrength: function (strength) {
       return this.desiredStrength.includes(strength);
@@ -8,7 +9,21 @@ export default {
     hasDesiredSkill: function (skill) {
       return this.desiredSkills.includes(skill);
     },
+    contactCandidate: function () {
+      this.$emit('contact', this.candidate);
+    },
+    hireCandidate: function () {
+      this.$emit('hire', this.candidate);
+    }
   },
+  computed: {
+    contacted: function () {
+      return this.candidate.companies.length === 1 && this.candidate.companies[0].status === 'CONTACTED';
+    },
+    hired: function () {
+      return this.candidate.companies.length === 1 && this.candidate.companies[0].status === 'HIRED';
+    }
+  }
 }
 </script>
 
@@ -37,8 +52,8 @@ export default {
       </span>
     </div>
     <div v-if="company" class="p-6 float-right">
-      <button class="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow">Contact</button>
-      <button class="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 hover:bg-teal-100 rounded shadow">Hire</button>
+      <button @click="contactCandidate" v-if="!contacted && !hired" class="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow">Contact</button>
+      <button @click="hireCandidate" v-if="company && contacted && !hired" class="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 hover:bg-teal-100 rounded shadow">Hire</button>
     </div>
   </div>
 </template>

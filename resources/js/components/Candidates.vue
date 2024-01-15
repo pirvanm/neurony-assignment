@@ -21,10 +21,13 @@
               :desired-strength="myFilters.strengths"
               :desired-skills="myFilters.skills"
               :company="company"
+              @contact="contactCandidate"
+              @hire="hireCandidate"
           />
       </div>
 
       <MvpCandidates :candidates="mvpCandidates"/>
+      <FlashMessage :position="'right bottom'"/>
     </div>
 </template>
 
@@ -48,6 +51,67 @@ export default {
     }
   },
   methods: {
+    contactCandidate: function (candidate) {
+      this.$refs.topProgress.start()
+
+      axios.post(`/api/candidates/contact/${candidate.id}`)
+          .then((response) => {
+            const data = response.data;
+            this.candidatesList = this.candidatesList.map((candidate) => {
+              if (candidate.id === data.id) {
+                return data;
+              }
+
+              return candidate;
+            })
+
+            this.coins -= 5;
+
+            this.flashMessage.success({
+              title: 'Candidate Contacted',
+              message: 'You have successfully contacted the candidate!'
+            })
+          })
+          .catch((error) => {
+            this.flashMessage.error({
+              title: 'Something went wrong!',
+              message: error.response.data.message,
+            })
+          })
+          .finally(() => {
+            this.$refs.topProgress.done()
+          })
+    },
+    hireCandidate: function (candidate) {
+      this.$refs.topProgress.start()
+      axios.patch(`/api/candidates/hire/${candidate.id}`)
+          .then((response) => {
+            const data = response.data;
+            this.candidatesList = this.candidatesList.map((candidate) => {
+              if (candidate.id === data.id) {
+                return data;
+              }
+
+              return candidate;
+            })
+
+            this.coins += 5;
+
+            this.flashMessage.success({
+              title: 'Candidate Hired',
+              message: 'You have successfully hired the candidate!'
+            })
+          })
+          .catch((error) => {
+            this.flashMessage.error({
+              title: 'Something went wrong!',
+              message: error.response.data.messsage,
+            })
+          })
+          .finally(() => {
+            this.$refs.topProgress.done()
+          })
+    },
     filterFetchCandidates: function () {
       this.$refs.topProgress.start()
 

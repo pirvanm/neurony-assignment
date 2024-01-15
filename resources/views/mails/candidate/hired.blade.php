@@ -1,0 +1,1 @@
+Company {{ $company->name }} has decided to hire you!

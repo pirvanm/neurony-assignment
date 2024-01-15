@@ -7,11 +7,13 @@
 require('./bootstrap');
 
 import vueTopprogress from 'vue-top-progress'
+import FlashMessage from '@smartweb/vue-flash-message'
 
 
 window.Vue = require('vue').default;
 
 Vue.use(vueTopprogress)
+Vue.use(FlashMessage)
 
 /**
  * The following block of code may be used to automatically register your
