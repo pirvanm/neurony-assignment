@@ -22,7 +22,9 @@
                     :mvp-candidates="{{ json_encode($mvpCandidates) }}"
                     :user="{{ json_encode($user) }}"
                     :strengths="{{ json_encode($strengths) }}"
-                    @skills="{{ json_encode($skills) }}"/>
+                    :skills="{{ json_encode($skills) }}"
+                    :filters="{{ json_encode($filters) }}"
+            />
         </div>
 
     <script src="{{ mix('/js/app.js') }}"></script>

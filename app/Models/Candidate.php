@@ -16,4 +16,13 @@ class Candidate extends Model
             ->withPivot('status')
             ->withTimestamps();
     }
+
+    public function scopeFilters($query, array $filters = [])
+    {
+        return $query->when($filters['strengths'] ?? null, function ($query, $strengths) {
+            return $query->whereRaw('JSON_CONTAINS(strengths, ?)', [json_encode($strengths)]);
+        })->when($filters['skills'] ?? null, function ($query, $skills) {
+            return $query->whereRaw('JSON_CONTAINS(soft_skills, ?)', [json_encode($skills)]);
+        });
+    }
 }

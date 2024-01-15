@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Schema;
 */
 
 if (Schema::hasTable('users') && User::count()) {
-    Auth::loginUsingId(User::whereHas('company')->first()->id);
+    \Auth::loginUsingId(User::whereHas('company')->first()->id);
     //\Auth::loginUsingId(User::whereDoesntHave('company')->first()->id);
     //\Auth::logout();
 }

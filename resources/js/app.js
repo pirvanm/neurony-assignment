@@ -6,7 +6,12 @@
 
 require('./bootstrap');
 
+import vueTopprogress from 'vue-top-progress'
+
+
 window.Vue = require('vue').default;
+
+Vue.use(vueTopprogress)
 
 /**
  * The following block of code may be used to automatically register your
